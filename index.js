@@ -2,6 +2,7 @@ require("dotenv").config();
 const config = require("./config.json");
 const path = require("node:path");
 const Server = require("./models/Server");
+const mysql = require("mysql2");
 
 const {
   Client,
@@ -34,6 +35,25 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGES,
   ],
 });
+
+// Open the connection to MySQL server
+const connection = mysql.createConnection({
+  host: config.host,
+  user: config.user,
+  password: config.password,
+});
+
+// Run create database statement
+connection.query(
+  `CREATE DATABASE IF NOT EXISTS discordBot`,
+  function (err, results) {
+    console.log(results);
+    console.log(err);
+  }
+);
+
+// Close the connection
+connection.end();
 
 const fs = require("fs");
 const util = require("util");

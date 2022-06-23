@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@discordjs/rest": "^0.4.1",
+    "chart.js": "^3.8.0",
     "common-tags": "^1.8.2",
     "discord-api-types": "^0.33.0",
     "discord.js": "^13.6.0",

@@ -49,13 +49,6 @@ module.exports.load = async (client) => {
 	app.use('/', require('./routes/index'));
 	app.use('/dashboard', require('./routes/dashboard'));
 
-	app.get('*', (req, res) => {
-		res.render('../views/404', {
-			bot: req.client,
-			user: req.user,
-		});
-	});
-
 	app.listen(config.webPort, () => {
 		console.log(`Webserver now online on port ${config.webPort}`);
 	});

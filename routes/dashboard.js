@@ -1,4 +1,5 @@
 const Server = require("../models/Server");
+const Task = require("../models/Task");
 const express = require('express');
 const { Permissions } = require('discord.js');
 const moment = require('moment');
@@ -6,7 +7,7 @@ require('moment-duration-format');
 
 const router = express.Router();
 
-const checkAuth = require('../auth/CheckAuth');
+const checkAuth = require('../auth/checkAuth');
 
 
 router.get('/server/:guildID/profile', checkAuth, async (req, res) => {
@@ -97,6 +98,26 @@ router.post('/server/:guildID', checkAuth, async (req, res) => {
 	if (!req.client.guilds.cache.get(req.params.guildID).members.cache.get(req.user.id).permissions.has(Permissions.FLAGS.MANAGE_SERVER)) return res.redirect('/dashboard/servers');
 
 	const data = req.body;
+	console.log(data)
+	
+
+	if (data.hasOwnProperty('kick')) {
+		let user = await req.client.guilds.cache.get(req.params.guildID).members.cache.get(data.kick);
+
+		if (!user || user == null) return;
+		if (user) {
+			await user.kick();
+		}
+	}
+	if (data.hasOwnProperty('ban')) {
+		let user = await req.client.guilds.cache.get(req.params.guildID).members.cache.get(data.kick);
+
+		if (!user || user == null) return;
+		if (user) {
+			await user.ban();
+		}
+	}
+
 
 	await res.redirect(`/dashboard/server/${req.params.guildID}`);
 });
@@ -112,6 +133,7 @@ router.get('/server/:guildID/members', checkAuth, async (req, res) => {
 	}
 
 	const members = server.members.cache.toJSON();
+
 
 	res.render('dash/members.ejs', {
 		bot: req.client,
@@ -132,10 +154,44 @@ router.get('/server/:guildID/stats', checkAuth, async (req, res) => {
 		return res.redirect('/dashboard/servers');
 	}
 
+	const members = server.members.cache.toJSON();
+
+
 	res.render('dash/stats.ejs', {
 		bot: req.client,
 		user: req.user || null,
 		guild: server,
+		members: members,
+		moment: moment,
+	});
+});
+
+router.get('/server/:guildID/tasks', checkAuth, async (req, res) => {
+	const server = req.client.guilds.cache.get(req.params.guildID);
+
+	if (!server && req.user.guilds.filter(u => ((u.permissions & 2146958591) === 2146958591)).map(u => u.id).includes(req.params.guildID)) {
+		return res.redirect(`https://discord.com/oauth2/authorize?client_id=${req.client.user.id}&scope=bot%20applications.commands&permissions=8&guild_id=${req.params.guildID}`);
+	}
+	else if (!server) {
+		return res.redirect('/dashboard/servers');
+	}
+
+	const members1 = server.members.cache.toJSON();
+
+	const tasks = await Task.findAll({
+		where: {
+		  serverId: req.params.guildID,
+		},
+		attributes: ["id", "text", "assignTo","isDone","dateCreated"],
+	  });
+
+
+	res.render('dash/tasks.ejs', {
+		bot: req.client,
+		user: req.user || null,
+		guild: server,
+		tasks: tasks,
+		members: members1,
 		moment: moment,
 	});
 });

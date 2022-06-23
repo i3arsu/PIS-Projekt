@@ -42,6 +42,7 @@
                 <th style="font-size: 20px;" scope="col">User Tag</th>
                 <th style="font-size: 20px;" scope="col">Joined</th>
                 <th style="font-size: 20px;" scope="col">Roles</th>
+                <th style="font-size: 20px;" scope="col">Action</th>
     
               </tr>
             </thead>
@@ -76,6 +77,15 @@
                 <td style="font-size: 20px;"><b><%= members[i].user.username %>#<%= members[i].user.discriminator %></b> (<%= members[i].id %>)</td>
                 <td style="font-size: 20px;"><span title="<%= moment(members[i].joinedAt).format("dddd MMMM Do YYYY, h:mm a") %>"><%= moment(members[i].joinedAt).format("l") %></span></td>
                 <td style="font-size: 20px;"><%= roles.join(", ") %></td>
+                <td style="font-size: 20px;">
+                  <form role="form" action="/dashboard/server/<%= guild.id %>" method="POST">
+                    <input type="radio" id="kick" name="kick" value="<%= members[i].id%>">
+                    <label>Kick</label> 
+                    <input type="radio" id="ban" name="ban" value="<%= members[i].id%>"">
+                    <label>Ban</label><br>
+                    <button type="submit">Submit</button>
+                  </form>
+                </td>
               </tr>                                          
             <% } %>
           </table>
