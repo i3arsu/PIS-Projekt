@@ -22,6 +22,11 @@
                     <i class="fa-solid fa-face-grin-beam" style="padding-right: 5px;"></i> Your Profile
                 </a>
             </p>
+             <p class="control">
+                <a href="/dashboard/server/<%= guild.id %>/tasks" class="button is-medium is-rounded is-info">
+                    <i class="fa-solid fa-table-columns" style="padding-right: 5px;"></i> Tasks
+                </a>
+            </p>
             <p class="control">
                 <a href="/dashboard/server/<%= guild.id %>/members" class="button is-medium is-rounded is-success">
                     <i class="fas fa-users" style="padding-right: 5px;"></i> Members
@@ -32,26 +37,10 @@
                     <i class="fa-solid fa-chart-column" style="padding-right: 5px;"></i> Stats
                 </a>
             </p>
-            <p class="control">
-                <a href="/dashboard/server/<%= guild.id %>/tasks" class="button is-medium is-rounded is-warning">
-                    <i class="fa-solid fa-chart-column" style="padding-right: 5px;"></i> Tasks
-                </a>
-            </p>
+           
         </div>
     </div>
 
     <hr style="background-color: dimgray">
     
-    <form role="form" action="/dashboard/server/<%= guild.id %>" method="POST">
-        <h1 class="is-size-3 has-text-white">
-            <i class="fas fa-gear" style="padding-right: 5px;"></i> Edit Settings
-        </h1>
-        <br>
-        <br>
-        <button type="submit" class="button is-warning is-rounded is-small is-link"><i class="fas fa-paper-plane" style="padding-right: 5px;"></i> Save Changes</button>
-        <br>
-        <br>
-        <small class="has-text-white">Page will reload after clicking the save button.</small>
-        <br>
-    </form>
 </div>

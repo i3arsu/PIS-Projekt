@@ -37,9 +37,17 @@
                 <th style="font-size: 20px;" scope="col">Date Created</th>
               </tr>
             </thead>
+            <%const allUsers = []%>
+            <%const userData = []%>
             <% for (let i = 0; i < tasks.length; i++) { %>
-                <% const currUser = bot.users.cache.get(tasks[i].assignTo);
-                %>
+                <% const currUser = bot.users.cache.get(tasks[i].assignTo);%>
+                <% if (currUser){ %> 
+                    <%const tempIndex = allUsers.indexOf(currUser.username);%>
+                    <%if (tempIndex == -1){ %>
+                        <% allUsers.push(currUser.username);%>
+                        <% userData.push(1);%>
+                    <%}else userData[tempIndex] += 1%>
+                <%}%>
                 <tr>
                     <td style="font-size: 20px;">
                         <%=tasks[i].id%>
@@ -60,7 +68,57 @@
                     </td>
                 </tr>
             <% } %>
+            <% const sum = userData.reduce((x,y)=>x+y,0);
+            const undef = tasks.length - sum;
+            if (undef > 0){
+                allUsers.push("Unassigned")
+                userData.push(undef)
+            } 
+            %>
           </table>
         </div>
       </div>
 </div>
+<div class="chart-container" style="margin:auto;position: relative; height:30vh; width:30vw">
+    <canvas id="myChart"></canvas>
+</div> 
+
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    console.log("<%=undef%>")
+    
+    function generateRandomColor(str) {
+        var hash = 0;
+        for (var i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        var colour = "#";
+        for (var i = 0; i < 3; i++) {
+            var value = (hash >> (i * 8)) & 0xff;
+            colour += ("00" + value.toString(16)).substr(-2);
+        }
+        return colour;
+    }
+
+    const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        label:"Graf",
+        data: {
+            labels:"<%=allUsers%>".split(","),
+            datasets: [{
+                label: 'Roles',
+                data: "<%=userData%>".split(","),
+                backgroundColor: "<%=allUsers%>".split(",").map((username)=>generateRandomColor(username)),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
