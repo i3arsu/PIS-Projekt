@@ -26,6 +26,10 @@ const Task = sequelize.define("Task", {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
+  dateCompleted: {
+    type: DataTypes.DATE,
+    defaultValue:DataTypes.NOW,
+  }
 });
 
 Task.sync();

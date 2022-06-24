@@ -1,6 +1,8 @@
 const Task = require("../models/Task");
 const Discord = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const moment = require('moment');
+require('moment-duration-format');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,15 +17,14 @@ module.exports = {
               isDone: true,
               serverId: interaction.guild.id,
             },
-            attributes: ["id", "text", "assignTo"],
+            attributes: ["id", "text", "assignTo", "updatedAt"],
           });
 
           let messageContent = tasks
             .map((task, idx) => {
               if (task.assignTo) {
-                return `${idx + 1}. ${task.text} - <@${task.assignTo}> - ${
-                  task.id
-                }\n`;
+                return `${idx + 1}. ${task.text} - <@${task.assignTo}> - Task id:${
+                  task.id} Task completed: ${moment( task.dateCreated).format("dddd MMMM Do YYYY, h:mm a")}\n`;
               } else {
                 return `${idx + 1}. ${task.text} - ${task.id}\n`;
               }
@@ -34,8 +35,7 @@ module.exports = {
             .setColor("#0099ff")
             .setTitle("Task List (Done)")
             .setDescription(
-              messageContent +
-                "\n To Add a task back, send `t!undo 1`. Replace 1 with the ID(last digit)"
+              messageContent
             );
       
             interaction.reply("Listed done tasks successfully!")

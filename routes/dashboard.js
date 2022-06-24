@@ -182,7 +182,7 @@ router.get('/server/:guildID/tasks', checkAuth, async (req, res) => {
 		where: {
 		  serverId: req.params.guildID,
 		},
-		attributes: ["id", "text", "assignTo","isDone","dateCreated"],
+		attributes: ["id", "text", "assignTo","isDone","dateCreated","dateCompleted"],
 	  });
 
 

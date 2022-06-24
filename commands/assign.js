@@ -19,8 +19,7 @@ module.exports = {
           .setColor("#0099ff")
           .setTitle("Error")
           .setDescription(
-            "You need to enter the id of the task to tick it off\n" +
-              "Enter `t!help` for help"
+            "You need to enter the id of the task to tick it off\n"
           );
           interaction.deferReply();
           return client.channels.cache.get(channelId).send({embeds: [errorEmbed]});
@@ -33,8 +32,7 @@ module.exports = {
           .setColor("#0099ff")
           .setTitle("Error")
           .setDescription(
-            "You need to mention a user to assign them to the task" +
-              "Enter `t!help` for help"
+            "You need to mention a user to assign them to the task"
           );
           interaction.deferReply();
           return client.channels.cache.get(channelId).send({embeds: [errorEmbed]});

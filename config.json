@@ -1,9 +1,12 @@
 {
 
-    
     "host":"mysql",
     "user":"root",
     "password":"passwordzabazu",
+
+    "host2":"mysql",
+    "user2":"root",
+    "password2":"passwordzabazu",
     
     "port":"3306",
     

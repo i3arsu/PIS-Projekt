@@ -1,6 +1,9 @@
 const Task = require("../models/Task");
 const Discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const dateTime = require('node-datetime');
+require('moment-duration-format');
+
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -11,6 +14,11 @@ module.exports = {
     try {
       const id = interaction.options.getString("taskid");
       const channelId = interaction.channel.id;
+      const dt = dateTime.create();
+      const dateCompleted = dt.format('Y-m-d H:M:S')
+
+      console.log(dateCompleted)
+
 
       if (!id) {
         const errorEmbed = new Discord.MessageEmbed()
@@ -37,7 +45,8 @@ module.exports = {
 
       if (task.serverId === interaction.guild.id) {
         await Task.update(
-          { isDone: true },
+          { isDone: true,
+            dateCompleted },
           {
             where: {
               id,

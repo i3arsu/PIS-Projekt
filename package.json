@@ -13,6 +13,7 @@
     "moment-duration-format": "^2.3.2",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "node-datetime": "^2.1.2",
     "passport": "^0.5.3",
     "passport-discord": "^0.1.4",
     "sequelize": "^6.20.1"
