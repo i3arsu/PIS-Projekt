@@ -1,0 +1,13 @@
+{
+
+    
+    "host":"mysql",
+    "user":"root",
+    "password":"passwordzabazu",
+    
+    "port":"3306",
+    
+    "webPort":"3000",
+    
+    "callback_url":"http://localhost:3000/login"
+    }
